@@ -1,0 +1,19 @@
+spring:
+    application:
+        name: ressourcetest
+    datasource:
+        url: jdbc:mysql://localhost:3306/auth_services
+        username: root
+        password: MotDePasse123!
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+
+application:
+    jwt:
+        secret: TaK+HaV^uvCHEFsEVfypW#7g9^k*Z8$V
+
+server:
+    port: 8081
