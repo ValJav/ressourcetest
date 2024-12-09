@@ -24,6 +24,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/v3/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/api/helloadmin").hasRole("ADMIN")
                         .anyRequest()
                         .authenticated())
                 .csrf(AbstractHttpConfigurer::disable)

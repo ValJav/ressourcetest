@@ -2,7 +2,6 @@ package com.inserm.gdi.ressourcetest.security;
 
 import java.io.IOException;
 
-import org.json.JSONObject;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,7 +10,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.inserm.gdi.ressourcetest.model.CustomUserDetails;
 import com.inserm.gdi.ressourcetest.service.JwtValidation;
+import com.inserm.gdi.ressourcetest.service.UserDetailsConverter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -56,17 +57,20 @@ protected void doFilterInternal(
         @NonNull HttpServletRequest request,
         @NonNull HttpServletResponse response,
         @NonNull FilterChain chain) throws ServletException, IOException {
-            System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-            if (jwtValidation.someRestCall(request.getHeader("Authorization")) != null) {
-                System.out.println("JWT validation successful : ");
-                System.out.println(jwtValidation.someRestCall(request.getHeader("Authorization")));
-                JSONObject json = new JSONObject(jwtValidation.someRestCall(request.getHeader("Authorization")));
-                System.out.println("json : " + json);
-            }
-            System.out.println("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(null, null, null);
+            System.out.println("-----------------------------------------------------------------------------------------------------------------------");
+            System.out.println("-----------------------------------------------------------------------------------------------------------------------");
+            String token = request.getHeader("Authorization");
+            String jsonResponse = jwtValidation.someRestCall(token);
+            System.out.println("jsonResponse : " + jsonResponse);
+            CustomUserDetails userDetails = UserDetailsConverter.convert(jsonResponse);
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(auth);
+            System.out.println("auth : " + auth);
+            System.out.println("-----------------------------------------------------------------------------------------------------------------------");
+            System.out.println("SecurityContextHolder.getContext().getAuthentication() : " + SecurityContextHolder.getContext().getAuthentication());
+            System.out.println("-----------------------------------------------------------------------------------------------------------------------");
+            System.out.println("-----------------------------------------------------------------------------------------------------------------------");
         chain.doFilter(request, response);
 }
 

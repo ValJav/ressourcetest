@@ -1,6 +1,7 @@
 package com.inserm.gdi.ressourcetest.jwt;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,10 +87,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private Authentication createAuthentication(Claims claims) {
-        List<GrantedAuthority> authorities = ((List<String>) claims.get("roles", List.class))
-            .stream()
-            .map(SimpleGrantedAuthority::new)
-            .collect(Collectors.toList());
+        List<String> roles = claims.get("roles", List.class);
+        List<GrantedAuthority> authorities = roles != null ? 
+            roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList()) :
+            Collections.emptyList();
 
         return new UsernamePasswordAuthenticationToken(
             claims.getSubject(),

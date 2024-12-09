@@ -17,6 +17,11 @@ public class ApiController {
     public String hello() {
         return "Hello, World! This is a protected resource.";
     }
+    
+    @GetMapping("/helloadmin")
+    public String helloAdmin() {
+        return "Hello, ADMIIIIN.";
+    }
 
     @GetMapping("/public")
     public String publicEndpoint() {
