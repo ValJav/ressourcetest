@@ -21,7 +21,7 @@ public class UserDetailsConverter {
         JsonNode rootNode = objectMapper.readTree(jsonResponse);
         JsonNode dataNode = rootNode.path("data");
         String username = dataNode.path("username").asText();
-        String password = dataNode.path("password").asText();
+        String password = "**********";
         boolean accountNonExpired = dataNode.path("accountNonExpired").asBoolean();
         boolean accountNonLocked = dataNode.path("accountNonLocked").asBoolean();
         boolean credentialsNonExpired = dataNode.path("credentialsNonExpired").asBoolean();

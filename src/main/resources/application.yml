@@ -10,10 +10,5 @@ spring:
         hibernate:
             ddl-auto: update
         show-sql: true
-
-application:
-    jwt:
-        secret: TaK+HaV^uvCHEFsEVfypW#7g9^k*Z8$V
-
 server:
     port: 8081
