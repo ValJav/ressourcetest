@@ -24,9 +24,11 @@ public class SecurityConfig {
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/v3/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/actuator").permitAll()
                         .requestMatchers("/api/helloadmin").hasRole("ADMIN")
-                        .anyRequest()
-                        .authenticated())
+                        .requestMatchers("/api/hellostructure").hasAnyRole("STR", "STRUCTURE")
+                        .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
